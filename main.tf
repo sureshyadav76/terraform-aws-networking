@@ -1,4 +1,5 @@
-
+#####################TEST############
+#####################TEST############
 
 
 resource "aws_vpc" "test" {
@@ -14,11 +15,7 @@ resource "aws_subnet" "test" {
   tags = var.subnet_tags
 }
 
-resource "aws_subnet" "test2" {
-  vpc_id     = join("", aws_vpc.test.*.id)
-  cidr_block = var.cidr2
-  tags = var.subnet2_tags
-}
+
 
 resource "aws_internet_gateway" "test" {
   count = var.enabled_internet_gateway ? 1 : 0
@@ -37,8 +34,13 @@ resource "aws_route_table" "test" {
 }
 resource "aws_route_table_association" "test" {
   subnet_id      = join("", aws_subnet.test.*.id)
-  subnet_id1     =  join("", aws_subnet.test2.*.id)
   route_table_id = join("", aws_route_table.test.*.id)
 
 }
+resource "aws_key_pair" "test" {
+  count = var.enable_key_pair == true ? 1 : 0
 
+  key_name   = var.test_id
+  public_key = var.public_key == "" ? file(var.key_path) : var.public_key
+  tags       = var.test_tags
+}
