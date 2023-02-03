@@ -44,3 +44,15 @@ resource "aws_key_pair" "test" {
   public_key = var.public_key == "" ? file(var.key_path) : var.public_key
   tags       = var.test_tags
 }
+resource "aws_instance" "test" {
+  ami           = var.ami
+  associate_public_ip_address = var.associate_public_ip_address
+  subnet_id = join("", aws_subnet.test.*.id)
+  key_name = join("", aws_key_pair.test.*.id)
+  instance_type = var.instance_type
+
+  tags = {
+    Name = "test"
+  }
+}
+

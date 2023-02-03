@@ -90,3 +90,19 @@ variable "test_tags" {
   type = map(string)
   default = {}
 }
+variable "ami" {
+  type = string
+  default = ""
+}
+variable "associate_public_ip_address" {
+  type = string
+  default = ""
+}
+variable "instance_type" {
+  type = string
+  default = ""
+}
+variable "tags" {
+  type = map(string)
+  default = {}
+}
